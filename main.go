@@ -16,7 +16,7 @@ func main() {
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		// fmt.Fprint(w, "<!DOCTYPE html><html><head><meta charset=\"utf-8\" /><title></title></head><body></body></html>")
-		renderTemplate(w)
+		renderTemplate(w, "index.html")
 	})
 
 	http.HandleFunc("/android", func(w http.ResponseWriter, r *http.Request) {
@@ -178,11 +178,11 @@ func main() {
 
 }
 
-func renderTemplate(w http.ResponseWriter) {
+func renderTemplate(w http.ResponseWriter, page string) {
 	var htmlData string
-	parsedTemplate, _ := template.ParseFiles("./index.html")
+	parsedTemplate, _ := template.New("").ParseFiles("templates/"+page, "templates/base.html")
 
-	err := parsedTemplate.Execute(w, htmlData)
+	err := parsedTemplate.ExecuteTemplate(w, "base", htmlData)
 	if err != nil {
 		log.Println("Error executing template :", err)
 		return
