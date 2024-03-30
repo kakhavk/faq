@@ -1,0 +1,51 @@
+<h2>How can I parse a website with PHP?</h2>
+<pre>
+https://stackoverflow.com/a/12029038/4359487
+&lt?php
+$url = 'http://acid3.acidtests.org';
+$handle = curl_init($url);
+curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+$html = curl_exec($handle);
+libxml_use_internal_errors(true); // Prevent HTML errors from displaying
+$doc = new DOMDocument();
+$doc->loadHTML($html);
+$link = $doc->getElementsByTagName('a')->item(0);
+echo 'Link text: ' . $link->nodeValue;
+echo '<br />';
+echo 'Link URL: ' . $link->getAttribute('href');
+?&gt;
+
+</pre>
+
+
+
+<hr />
+
+<h1>run apache with php-fpm on local virtuahost</h1>
+<pre>
+
+"1. add this code infvirtualhosts config file at beginnig of the file and change /run/php-fpm/www.sock with your systems compatible location
+
+        <FilesMatch \.php$>
+              # For Apache version 2.4.10 and above, use SetHandler to run PHP as a fastCGI process server
+              SetHandler ""proxy:unix:/run/php-fpm/www.sock|fcgi://localhost""
+        </FilesMatch>
+
+2. add permission to php pid file with your user
+
+
+sudo chown myuser:apache /run/php-fpm/*"
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+

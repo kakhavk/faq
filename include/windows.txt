@@ -1,0 +1,280 @@
+<h2>printer spooling problem in windows</h2>
+
+make bat file and write<br />
+<br />
+@echo off<br />
+net start Spooler<br />
+<br />
+<br />
+and run as administrator<br />
+
+
+<h2>Windows 7 Switch IDE to ACHI</h2>
+<br />
+<pre>
+http://support.microsoft.com/kb/922976
+
+To resolve this issue yourself, enable the AHCI driver in the registry before you change the SATA mode of the boot drive. To do this, follow these steps:
+
+    Exit all Windows-based programs.
+    Click Start, type regedit in the Start Search box, and then press ENTER.
+    If you receive the User Account Control dialog box, click Continue.
+    Locate and then click one of the following registry subkeys:
+    HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Msahci
+    HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\IastorV
+    In the pane on the right side, right-click Start in the Name column, and then click Modify.
+    In the Value data box, type 0, and then click OK.
+    On the File menu, click Exit to close Registry Editor.
+</pre>
+<br />
+<br />
+
+<h2>Microsoft Excell: if else</h2>
+<pre>
+http://www.techonthenet.com/excel/formulas/if_nested.php
+
+Syntax
+The syntax for the nesting the IF function is:
+IF( condition1, value_if_true1)
+
+IF( condition1, value_if_true1, value_if_not_true1)
+
+IF( condition1, value_if_true1, IF( condition2, value_if_true2, value_if_false2 ))
+
+Example:
+IF( A1>23, B3*C4)
+</pre>
+<br /><br />
+<h2>Scanner shortcut on Windows 7</h2>
+<pre>
+http://support.brother.com/g/b/faqend.aspx?c=gb&lang=en&prod=mfcl9550cdw_us_eu_as&faqid=faq00002447_000
+
+add WIAACMGR  in shortcut url
+</pre>
+
+<h2>Reset Network in Windows</h2>
+Ask a question<br />
+Report I have internet but browsers won't work	
+<a href="http://ccm.net/forum/affich-650825-i-have-internet-but-browsers-won-t-work">http://ccm.net/forum/affich-650825-i-have-internet-but-browsers-won-t-work</a>
+<br />
+<br />
+Click on Start --> In search box, type cmd --> Then "CMD" will be displayed in the search --> Now right-click on "CMD" ---> Select "Run as administrator".<br />
+Now enter this command<br />
+<br />
+netsh int ip reset resetlog.txt<br />
+<br />
+Press "Enter"<br />
+Reboot your computer<br />
+
+<h2>Manage network shared user and password in windows xp</h2>
+<pre>
+https://support.microsoft.com/en-us/kb/306541
+
+    Log on to the computer as the user whose account you want to change.
+    Click Start, and then click Control Panel.
+    In Control Panel, click User Accounts under Pick a category to open the User Accounts dialog box.
+    Open the Stored User Names and Passwords dialog box; to do so, use the appropriate method:
+        If you log on with a limited account:
+            Under Related Tasks, click Manage my network passwords.
+        If you log on with an account with administrative privileges:
+            Under or pick an account to change, click your user account to open the What do you want to change about your account? dialog box.
+            Under Related Tasks, click the Manage my network passwords.
+    A list of stored user names and passwords similar to the following example is displayed:
+    *.Microsoft.com
+    Passport.Net\*(Passport) 
+</pre>
+<br /></br>
+<h2>You have to install atk0100 (Asus X5xxx notebook)</h2>
+<pre>
+"http://answers.microsoft.com/en-us/windows/forum/all/how-i-can-fix-on-loptop-asus-x53u-error-install/ccae8bf0-d8e9-495d-bcca-84e3743c496b?auth=1
+
+Go to the Asus X5xx downloads here and select your O/S. The ATKACPI driver is in the utilities section "
+</pre>
+<br />
+<br />
+<h2>Read foxpro DB using php/Java</h2>
+<pre>
+http://stackoverflow.com/questions/2238659/read-foxpro-db-using-php-java
+
+The last option which finally worked for me was: Visual Foxpro OLE Driver.
+
+You could update forxpro to Foxpro Sp2 (<a href="https://www.microsoft.com/en-us/download/details.aspx?id=13959" target="_blank">https://www.microsoft.com/en-us/download/details.aspx?id=13959</a>).
+install  the OLE Driver (<a href="https://www.microsoft.com/en-us/download/details.aspx?id=14839" target="_blank">https://www.microsoft.com/en-us/download/details.aspx?id=14839</a>). 
+Sample code looks like
+
+$conn = new COM("ADODB.Connection");
+$conn->Open('Provider=VFPOLEDB.1;Data Source="C:\\testDB.dbc";'); 
+
+$query = "SELECT * FROM TABLE1 ";
+$rs = $conn->Execute($query) or die("Error in query: $query. " . $conn->ErrorMsg());
+while (!$rs->EOF) {
+    echo " Got COL1: " . $rs->Fields("COL1") . " :: COL2: " . $rs->Fields("COL2") . " id: " . $rs->Fields("ID") . "\n";
+    $rs->MoveNext();
+}
+
+$query = "UPDATE TABLE1 set COL1 = \"AA\", COL2 = \"Updated value\" ";
+$conn->Execute($query);
+
+
+# PHP install
+install pear http://pear.php.net/manual/en/installation.getting.php
+pear install MDB2
+pear install DB_ado
+#
+# in php.ini add 
+[COM_DOT_NET]
+extension="php_com_dotnet.dll"
+</pre>
+<br />
+<h2>The user profile service service failed the logon</h2>
+<pre>
+https://support.microsoft.com/en-us/kb/947215.
+
+You receive a "The User Profile Service failed the logon” error message 
+
+Click Start, type regedit in the Search box, and then press ENTER.
+In Registry Editor, locate and then click the following registry subkey:
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList
+In the navigation pane, locate the folder that begins with S-1-5 (SID key) followed by a long number.
+Click each S-1-5 folder, locate the ProfileImagePath entry in the details pane, and then double-click to make sure that this is the user account profile that has the error.
+If you have two folders starting with S-1-5 followed by some long numbers and one of them ended with .bak, you have to rename the .bak folder. To do this, follow these steps:
+
+    Right-click the folder without .bak, and then click Rename. Type .ba, and then press ENTER.
+    2493038
+    Right-click the folder that is named .bak, and then click Rename. Remove .bak at the end of the folder name, and then press ENTER.
+    2493039
+    Right-click the folder that is named .ba, and then click Rename. Change the .ba to .bak at the end of the folder name, and then press ENTER.
+    2493040
+
+If you have only one folder starting with S-1-5 that is followed by long numbers and ends with .bak. Right-click the folder, and then click Rename. Remove .bak at the end of the folder name, and then press ENTER.
+
+Click the folder without .bak in the details pane, double-click RefCount, type 0, and then click OK.
+
+Click the folder without .bak, in the details pane, double-click State, type 0, and then click OK.
+
+Close Registry Editor.
+Restart the computer.
+Log on again with your account.
+</pre>
+<br />
+
+<h1>I have internet but browsers won't work</h1>
+<pre>
+http://ccm.net/forum/affich-650825-i-have-internet-but-browsers-won-t-work
+
+Click on Start --> In search box, type cmd --> Then "CMD" will be displayed in the search --> Now right-click on "CMD" ---> Select "Run as administrator".
+Now enter this command
+netsh int ip reset resetlog.txt
+Press "Enter".
+Reboot your computer"
+
+If does not helps check thaht dns is correctly found and if needed set manualy
+</pre>
+<hr />
+
+
+<h1>How to reset user options and registry settings in Word</h1>
+<pre>
+<a href="https://support.microsoft.com/en-us/help/822005/how-to-reset-user-options-and-registry-settings-in-word">https://support.microsoft.com/en-us/help/822005/how-to-reset-user-options-and-registry-settings-in-word</a>
+
+How to reset user options and registry settings in Word
+To have us reset user options and registry settings in Microsoft Word for you, go to the "Here's an easy fix" section. <br />If you prefer to reset user options and registry settings in Microsoft Word yourself, go to the "Let me fix it myself" section.
+
+<h2>Here's an easy fix</h2>
+To fix this problem automatically, click the Download button. In the File Download dialog box, click Run or Open, and then follow the steps in the easy fix wizard.
+
+    This wizard may be in English only. However, the automatic fix also works for other language versions of Windows.
+    If you’re not on the computer that has the problem, save the easy fix solution to a flash drive or a CD, and then run it on the computer that has the problem.
+    
+download easy fix from: 
+<a href="http://download.microsoft.com/download/6/2/A/62A1385F-513F-4DCB-8F38-E4CB730A334D/MicrosoftEasyFix25011.mini.diagcab">http://download.microsoft.com/download/6/2/A/62A1385F-513F-4DCB-8F38-E4CB730A334D/MicrosoftEasyFix25011.mini.diagcab</a>
+
+<h2>Let me fix it myself</h2>
+Warning Serious problems might occur if you modify the registry incorrectly by using Registry Editor or by using another method. <br />These problems might require that you reinstall your operating system. Microsoft cannot guarantee that these problems can be solved. Modify the registry at your own risk.
+
+To manually reset a registry key, you must first delete it. To do this, follow these steps.
+
+Important Always export a registry key before you delete it. This step is important because you may have to restore the functionality that is provided by the key.
+
+    Exit all Microsoft Office programs.
+    Click Start, click Run, type regedit, and then click OK.
+    Expand the appropriate folders to locate the registry key that you want to delete. (Refer to the "Main locations of Word settings in the Windows Registry" section.)
+    Click to select the key that you want to delete.
+    Use one of the following methods, as appropriate for your operating system:
+        In Microsoft Windows 2000, click Export Registry File on the Registry menu, type a file name for the backup copy of the key, and then click Save.
+        In Windows XP and later versions or in Microsoft Windows Server 2003 and later versions, click Export on the File menu, type a file name for the backup copy of the key, and then click Save.
+    Make sure that the key that you just exported is selected, and then click Delete on the Edit menu.
+    When you are prompted to respond to one of the following messages, click Yes:
+        Are you sure you want to delete this key?
+        Are you sure you want to delete this key and all of its subkeys?
+    Exit Registry Editor.
+
+After you delete a registry key, and then you restart the program, Word runs the Setup program to correctly rebuild the registry key. If you want to rebuild the registry key before you run the program, repair your installation by following the steps in the "Repair Word (Office)" section. 
+
+
+--------------------------------------------------------------------------------
+Word key
+Word 2016
+
+HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Word
+Word 2013
+
+HKEY_CURRENT_USER\Software\Microsoft\Office\15.0\Word
+Word 2010
+HKEY_CURRENT_USER\Software\Microsoft\Office\14.0\Word
+Word 2007
+HKEY_CURRENT_USER\Software\Microsoft\Office\12.0\Word
+Word 2003
+HKEY_CURRENT_USER\Software\Microsoft\Office\11.0\Word
+Word 2002
+HKEY_CURRENT_USER\Software\Microsoft\Office\10.0\Word
+Word 2000
+HKEY_CURRENT_USER\Software\Microsoft\Office\9.0\Word
+Changes made to this HKEY_CURRENT_USER key are mirrored in the following keys for Word 2003, for Word 2002, and for Word 2000:
+
+Word 2003
+HKEY_USERS\.DEFAULT\Software\Microsoft\Office\11.0\Word
+Word 2002
+HKEY_USERS\.DEFAULT\Software\Microsoft\Office\10.0\Word
+Word 2000
+HKEY_USERS\.DEFAULT\Software\Microsoft\Office\9.0\Word
+The difference between the "HKEY_CURRENT_USER" location and the HKEY_USER" location is that the first applies only to the current user of the system, and the second is the default location for all users. However, Word entries are the same for both locations. Therefore, any change that is made to one location is automatically reflected in the other location.
+
+Note For the rest of this section, all references to the HKEY_CURRENT_USER tree apply also to the HKEY_USERS tree, except for the 2007 Microsoft Office 2007 programs and where otherwise noted.
+
+The Data key and the Options key are the most frequently changed areas.
+Data key
+</pre>
+<hr />
+
+
+<br />
+
+<h1>Securing Remote Desktop (RDP) for System Administrators</h1>
+<pre>
+https://security.berkeley.edu/resources/best-practices-how-articles/system-application-security/securing-remote-desktop-rdp-system
+
+    Click Start-->Programs-->Administrative Tools-->Local Security Policy
+    Under Local Policies-->User Rights Assignment, go to "Allow logon through Terminal Services." Or “Allow logon through Remote Desktop Services”
+    Remove the Administrators group and leave the Remote Desktop Users group.
+    Use the System control panel to add users to the Remote Desktop Users group.
+
+</pre>
+<hr />
+
+
+
+<br />
+
+<h1>Connecting to multiple network shares on the same host using different credentials?</h1>
+<pre>
+https://superuser.com/questions/934765/connecting-to-multiple-network-shares-on-the-same-host-using-different-credentia
+
+1
+
+ All you need to do is add entries to the hosts file in %WINDIR%\system32\drivers\etc location. If you add w.x.y.z machinea and w.x.y.z machineb w.x.y.z machinec and so on (changing w.x.y.z to the ip address of the machine you wish to connect to of course) then you can connect to/map drives to \machinea\user1share \machineb\user2share \machinec\user3share and so on
+
+
+
+</pre>
+<hr />

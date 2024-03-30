@@ -1,0 +1,1981 @@
+<h2>Font configuration</h2>
+<pre>
+make file .fonts.conf in home directory and add code:
+
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE fontconfig SYSTEM &quot;fonts.dtd&quot;&gt;
+&lt;fontconfig&gt;
+ &lt;match target=&quot;font&quot; &gt;
+  &lt;edit mode=&quot;assign&quot; name=&quot;hinting&quot; &gt;
+   &lt;bool&gt;true&lt;/bool&gt;
+  &lt;/edit&gt;
+ &lt;/match&gt;
+ &lt;match target=&quot;font&quot; &gt;
+  &lt;edit mode=&quot;assign&quot; name=&quot;hintstyle&quot; &gt;
+   &lt;const&gt;hintslight&lt;/const&gt;
+  &lt;/edit&gt;
+ &lt;/match&gt;
+ &lt;match target=&quot;font&quot; &gt;
+  &lt;edit mode=&quot;assign&quot; name=&quot;antialias&quot; &gt;
+   &lt;bool&gt;true&lt;/bool&gt;
+  &lt;/edit&gt;
+ &lt;/match&gt;
+&lt;/fontconfig&gt;
+
+
+</pre>
+
+
+<h2>Fedora install multimedia libraries and codecs:</h2>
+<div><a href="https://ask.fedoraproject.org/en/question/9111/sticky-what-plugins-do-i-need-to-install-to-watch-movies-and-listen-to-music/">https://ask.fedoraproject.org/en/question/9111/sticky-what-plugins-do-i-need-to-install-to-watch-movies-and-listen-to-music/</a></div>
+<br />
+(yum or dnf) install gstreamer1-plugins-good gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free-extras gstreamer1-plugins-bad-freeworld gstreamer-plugin-crystalhd gstreamer-ffmpeg gstreamer-plugins-good gstreamer-plugins-ugly gstreamer-plugins-bad gstreamer-plugins-bad-extras gstreamer-plugins-bad-free gstreamer-plugins-bad-free-extras gstreamer-plugins-bad-nonfree gstreamer-plugins-bad-extras libmpg123
+
+
+<hr />
+<h2>Fedora 23 LibreOffice dependencies</h2>
+
+dnf install apache-commons-logging autocorr-en clucene-contribs-lib firebird-libfbembed flute google-crosextra-caladea-fonts google-crosextra-carlito-fonts hyphen-en java-1.8.0-openjdk libabw libbase libcdr libcmis libe-book libeot libetonyek libexttextcat libfonts libformula libfreehand libgltf liblangtag liblayout libloader libmspub libmwaw libodfgen liborcus libpagemaker librepository libserializer libvisio libwps lpsolve mythes neon pakchois pentaho-libxml pentaho-reporting-flow-engine postgresql-jdbc sac ttmkfdir xml-commons-apis xorg-x11-fonts-Type1 
+
+<h2>Fedora 23 on raspberry</h2>
+<a href="https://fedoraproject.org/wiki/Raspberry_Pi#FedBerry">https://fedoraproject.org/wiki/Raspberry_Pi</a><br />
+<a href="https://github.com/fedberry/fedberry/blob/master/INSTALL.md">https://github.com/fedberry/fedberry/blob/master/INSTALL.md</a>
+<br />
+
+<h2>dnf conflict duplicated files</h2>
+http://dnf.readthedocs.io/en/latest/command_ref.html
+dnf repoquery --duplicated
+dnf remove $(dnf repoquery --duplicated --latest-limit -1 -q)
+or
+dnf remove --duplicated
+#in old version instead --duplicated was --duplicates
+#to resolve conflict maybe alsow will needed remove them manualy with command "rpm -e packagename"
+or see:<br /> <a href="#error_preun">error: %preun .... scriptlet failed, exit status 1<br/>
+yum error in PREUN scriptlet when removing packages </a>
+<br />
+<h2>Using Apple's Aluminium Keyboard on Linux</h2>
+<pre>
+http://anrieff.net/abs/viewpost.php?lang=en&id=44
+add folowing to startup  file like  /etc/rc.local or /etc/rc.d/rc.local depends on operating system version example (for Fedora 13 /etc/rc.local, for Fedora 17 /etc/rc.d/rc.local).
+
+echo "2" > /sys/module/hid_apple/parameters/fnmode
+echo "0" > /sys/module/hid_apple/parameters/iso_layout
+
+if file /etc/c.local does not exists create it ad att folowing lines
+
+#!/bin/sh
+
+echo "2" > /sys/module/hid_apple/parameters/fnmode
+echo "0" > /sys/module/hid_apple/parameters/iso_layout
+
+exit 0
+</pre>
+
+<br /><br />
+<h2>Cloning an SD Card on Linux or Mac</h2>
+<pre>
+http://mikelev.in/2010/09/cloning-an-sd-card-on-linux/
+
+Identify the name of your sd card in the /dev directory
+dmesg | tail
+What this does is it pipes your device messages into the tail command, showing you the last 10 device messages you’ve received. One of them will be the one created by popping the SD card in, and will probably look something like:
+[  335.316290]  sd 3:0:0:0: [sdb] Attached SCSI removable disk
+
+Now that your SD card s installed and you know that it is called /dev/sdb (or whatever), you can go ahead and copy the entire raw disk image to your hard drive.
+dd if=/dev/sdb of=~/sd-card.bin
+
+Now you can copy image to sd card. Put new sd card to sc card reader. if sdcard is in /dev/sdb then
+dd if=/path-to/sd-card.bin of=/dev/sdb
+</pre>
+<br /><br />
+
+
+<h2>Wine</h2>
+<pre>
+
+wget  https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
+
+mv winetricks bin
+cd bin
+chmod +x winetricks
+
+vi winetricks-32
+
+#!/bin/sh
+
+WINEPREFIX=~/.wine32 WINEARCH='win32' winetricks $1
+
+vi wine-32
+
+#!/bin/sh
+
+WINEPREFIX=~.wine32 WINEARCH='win32' wine $1
+
+-----
+chmod +x wine-32
+
+
+
+vi wine-32-ru
+
+#!/bin/sh
+
+WINEPREFIX=~.wine-32ru WINEARCH='win32' LANG=ru_RU.UTF-8 wine $1
+
+
+-----
+chmod +x wine-32-ru
+
+
+
+install application with wine-32
+
+wine-32 /pathtoinstallation/setup.exe
+
+
+
+cabextract must have installed to work wine properly
+</pre>
+<br /><br />
+<h2>after installing wine, amd radeon acceleration not works	maybe installing mesa-dri-drivers and mesa-vulkan-drivers can help</h2>
+<pre>
+maybe installing mesa-dri-drivers and mesa-vulkan-drivers can help
+</pre>
+<br><br>
+
+
+<h2>Scan local network</h2>
+<pre>
+nmap -sP 192.168.1.0/24
+</pre>
+
+<br /><br />
+<h2>Get your global ip address from linux shell</h2>
+<pre>
+curl http://icanhazip.com
+</pre>
+
+<br /><br />
+
+<h2>Limit network speed</h2>
+<pre>
+ethtool -s ethX [speed 10|100|1000|2500] [duplex half|full]
+</pre>
+<br />
+
+
+
+<h1>Set networkmanager static parameters (ip address, gateway, dns etc..) on Linux</h1>
+<pre>
+For this example is used fedora 19"	"#set values in file /etc/sysconfig/network-scripts/ifcfg-yourdevice where your device is network device name for example eth0 
+#Add lines and related values
+#GATEWAY=gatewayipaddress
+#BROADcAST=broadcastaddess
+#IPADDR=ipaddress
+#NETMASK=netmaskvalue
+#DNS1=dnsaddress1
+#DNS2=dnsaddress2
+#BOORPROTO="none" instead "dhcp"
+#for example 
+
+GATEWAY=192.168.0.1
+BROADCAST=192.168.0.255
+IPADDR=192.168.0.12
+NETMASK=255.255.255.0
+DNS1=192.168.0.1
+DNS2=8.8.8.8
+BOOTPROTO="none"
+</pre>
+<hr />
+
+<h1>Routing with firewalld on centos 7</h1>
+<pre>
+
+http://serverfault.com/questions/657836/nat-doesnt-work-on-centos-7firewalld
+
+vi /etc/sysctl.conf
+
+add “net.ipv4.ip_forward=1”
+
+sysctl –p 
+
+#eth0=enp0s3
+#eth1=enp0s3
+
+
+firewall-cmd --change-interface=enp0s8 --zone=internal --permanent
+firewall-cmd --change-interface=enp0s3 --zone=external --permanent
+firewall-cmd --set-default-zone=internal --permanent
+firewall-cmd --zone=internal --add-service=dns --permanent
+firewall-cmd --permanent --direct --passthrough ipv4 -t nat -I POSTROUTING -o enp0s3 -j MASQUERADE -s eth0ipaddress/24
+
+firewall-cmd --reload
+firewall-cmd --complete-reload
+
+
+
+https://devops.profitbricks.com/tutorials/deploy-outbound-nat-gateway-on-centos-7/
+
+firewall-cmd --permanent --direct --passthrough ipv4 -t nat -I POSTROUTING -o eth0 -j MASQUERADE -s eth0ipaddress/24
+
+http://www.tejasbarot.com/2014/08/05/rhel-7-centos-7-how-to-get-started-with-firewalld/#axzz3ulwAcUm5
+</pre>
+<hr />
+
+
+<h1>Configure dhcp server	# eth0=192.168.0.x</h1>
+<pre>
+# eth1=192.168.1.x
+
+vi /etc/dhcp/dhcpd.conf
+
+subnet 192.168.1.0 netmask 255.255.255.0 {
+range 192.168.1.20 192.168.1.30;
+option domain-name-servers 8.8.8.8, 192.168.0.1;
+option domain-name "server.local";
+option routers 192.168.0.1;
+option broadcast-address 192.168.1.255;
+default-lease-time 600;
+max-lease-time 7200;
+}
+
+vi /etc/sysconfig/dhcpd
+
+DHCPDARGS=eth0
+
+
+#troubleshoot
+# after updating system dhcpd service does not works
+# example to solve on CentOS7:
+cp /usr/lib/systemd/system/dhcpd.service /etc/systemd/system/
+vi /etc/systemd/system/dhcpd.service
+#ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd.conf -user dhcpd -group dhcpd --no-pid <your_interface_name(s)>
+systemctl --system daemon-reload
+systemctl restart dhcpd.service
+</pre>
+</hr />
+
+<h1>Allow / Remove remote ip address accessing port</h1>
+<pre>
+#allow remote ip address 121.212.121.212 to access port 8008
+firewall-cmd --zone=external --add-rich-rule="rule family="ipv4" source address=121.212.121.212 port protocol="tcp" port="8008" accept" --permanent
+
+#allow remote ip broadcast 121.212.121.0/24 to access port 8008
+firewall-cmd --zone=external --add-rich-rule="rule family="ipv4" source address=121.212.121.0/24 port protocol="tcp" port="8008" accept" --permanent
+
+firewall-cmd --reload
+or 
+firewall-cmd --complete-reload
+
+#remove rule where ip address 121.212.121.212 has access permission allowed
+firewall-cmd --zone=external --remove-rich-rule="rule family="ipv4" source address=121.212.121.212 port protocol="tcp" port="8008" accept" --permanent
+
+#remove rule where ip broadcast 121.212.121.0/24 has access permission allowed
+firewall-cmd --zone=external --remove-rich-rule="rule family="ipv4" source address=121.212.121.0/24 port protocol="tcp" port="8008" accept" --permanent
+
+firewall-cmd --reload
+or 
+firewall-cmd --complete-reload
+</pre>
+<hr />
+
+
+<h1>ufw firewall	sudo apt-get install ufw</h1>
+<pre>
+#allow local network to acces to all port
+sudo from 192.168.1.0/24
+#allow to 22 port from specified ip address (for example 10.0.0.0)
+sudo ufw allow from 10.0.0.0 to any port 22
+#enable firewall
+sudo ufw enable
+
+https://www.raspberrypi.org/forums/viewtopic.php?f=26&t=47115
+https://ubuntuforums.org/showthread.php?t=823741
+</pre>
+<hr />
+
+<h1>UFW delete rule	</h1>
+<pre>
+http://askubuntu.com/questions/593886/ufw-wont-delete-rule#593888
+
+The correct syntax would be:
+sudo ufw delete allow 9000
+If you make a rule by the following:
+sudo ufw allow 9000
+Then the rule is allow 9000. Now if you want to delete the rule:
+sudo ufw delete rule
+i.e.
+sudo ufw delete allow 9000
+</pre>
+<hr />
+<h1>Linux Command Line Network Scanning and Monitoring Tools</h1>
+<pre>
+http://www.tecmint.com/command-line-tools-to-monitor-linux-performance/
+
+some usefull soft:
+arp
+arpwatch
+arp-scan
+#usage
+arp
+arp-scan -l
+
+#These commands works with root privilegies
+</pre>
+<hr />
+
+<h1>Configuring virtual network interfaces in Linux (without libvirt)</h1>
+
+<pre>
+http://linuxconfig.org/configuring-virtual-network-interfaces-in-linux
+
+Note: Dont forget to turn on masquerading in firewall and in /etc/sysctl.conf file set 1 to net.ipv4.ip_forward (net.ipv4.ip_forward = 1)
+
+1. Introduction
+
+Did you know that you can assign more that one IP address to a single physical network interface? 
+This technique is quite useful, for example when working with Apache and virtual hosts, as it allows you to access same Apache server by using two different IP addresses.
+
+2. Temporary virtual network interface
+
+The process of creating a virtual network interface in Linux is a quite simple matter. It involves a single execution of the ifconfig command.
+
+ifconfig eth0:0 123.123.22.22
+
+The above command will create a new virtual network interface based on original eth0 physical interface. 
+The only most important condition for creating the virtual network interface is the physical network interface, as in our case eth0 must exists. 
+The whole example is shown below:
+
+# ifconfig eth0 
+eth0 Link encap:Ethernet  HWaddr 3c:97:0e:02:98:c8  
+inet addr:192.168.100.23  Bcast:192.168.100.255  
+Mask:255.255.255.0
+
+# ping 192.168.100.23
+PING 192.168.100.23  bytes of data.
+64 bytes from 192.168.100.23 time=0.023 ms
+64 bytes from 192.168.100.23 time=0.059 m
+
+At this point we can configure a new virtual interface based on eth0. 
+Once you execute the ifconfig command the new virtual interface will be immediately ready to use.
+
+# ifconfig eth0:0
+eth0:0    Link encap:Ethernet  HWaddr 3c:97:0e:02:98:c8  
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          Interrupt:20 Memory:f1600000-f1620000 
+
+# ifconfig eth0:0 123.123.22.22
+# ifconfig eth0:0
+eth0:0    Link encap:Ethernet  HWaddr 3c:97:0e:02:98:c8  
+          inet addr:123.123.22.22  Bcast:123.255.255.255  Mask:255.0.0.0
+
+# ping 123.123.22.22
+PING 123.123.22.22 (123.123.22.22) 56(84) bytes of data.
+64 bytes from 123.123.22.22: icmp_req=1 ttl=64 time=0.060 ms
+64 bytes from 123.123.22.22: icmp_req=2 ttl=64 time=0.057 ms
+
+2.1.  Disable virtual network interface
+
+To disable our temporary network interface created earlier we can use the ifconfig command again but with a down flag.
+
+# ifconfig eth0:0 down
+
+3. Virtual address permanent assignment
+
+The above configuration would not last after reboot. 
+If you wish the virtual network interface to be permanent you would need to modify config files relevant to your particular Linux distribution. 
+Below, you can find information describing this procedure for the major Linux distributions:
+
+3.1. Debian / Ubuntu
+3.1.1. Static
+
+For Debian or Ubuntu Linux you need to edit /etc/network/interfaces file with your favorite text editor and add the following lines:
+
+iface eth0:0 inet static
+address 123.123.22.22
+netmask 255.0.0.0
+broadcast 123.255.255.255
+
+3.1.2. Dhcp
+
+It is also possible to use virtual network interface with DHCP. In that case, you will need to add to your /etc/network/interfaces the following line.
+
+iface eth0:0 inet dhcp
+
+To apply your change restart the network with:
+
+ # /etc/init.d/networking restart
+
+3.2. Redhat / Fedora / CentOS
+3.2.1. Static
+
+For Redhat, Fedora or CentOS Linux the directory responsible for permanent IP address assignment is /etc/sysconfig/network-scripts. 
+In this directory you need to create a file corresponding to your new virtual interface. 
+In our case, that will be a file called: ifcfg-eth0:0. 
+Create this new file and insert following lines to make your virtual address assignment permanent after reboot:
+
+DEVICE=eth0:0
+IPADDR=123.123.22.22
+NETMASK=255.0.0.0
+NETWORK=123.0.0.0
+BROADCAST=123.255.255.255
+ONBOOT=yes
+
+3.2.2. Dhcp
+
+DEVICE=eth0:0
+BOOTPROTO=dhcp
+ONBOOT=yes
+
+Once ready restart your interfaces with:
+
+# service network restart
+
+4. Conclusion
+
+In the old days one physical server served a single website. This is no longer a viable option for hosting websites today so ability of an operating system to create virtual network interface is really a must."
+</pre>
+<hr />
+
+<h1>Block certain file extensions on samba share</h1>
+<pre>
+https://wiki.archlinux.org/index.php/Samba/Tips_and_tricks
+
+Samba offers an option to block files with certain patterns, like file extensions. This option can be used to prevent dissemination of 
+viruses or to disuade users from wasting space with certain files:
+
+veto files = /*.exe/*.com/*.dll/*.bat/*.vbs/*.tmp/*.mp3/*.avi/*.mp4/*.wmv/*.wma/
+</pre>
+<hr />
+
+<h1>mount samba to directory by cifs command</h1>
+
+<pre>
+https://wiki.archlinux.org/index.php/samba
+https://www.samba.org/~ab/output/htmldocs/manpages-3/mount.cifs.8.html
+#Note that to use cifs must have root privilegies
+mount -t cifs //SERVER/sharename /mnt/mountpoint -o user=username,password=password,workgroup=workgroup,ip=serverip,uid=username_who_must_own
+#To change cifs port add ,port=portnumber
+mount -t cifs //SERVER/sharename /mnt/mountpoint -o  user=username,password=password,workgroup=workgroup,ip=serverip,uid=username_who_must_own,port=portnumber
+
+mount directory must be in mnt or out of /home/user dir
+
+
+#mount via /etc/fstab
+//SERVER/sharename /mnt/mountpoint  cifs   username=username,password=password,uid=username_who_must_own    0  0
+</pre>
+<hr />
+
+
+<h1>Fedora 25 Samba 4.5.x cannot connect from Windows XP</h1>
+
+<pre>
+http://forums.fedoraforum.org/showthread.php?p=1780424#post1780424
+
+To fix the issue, edit /etc/smb.conf and under the [global] section add the line:
+Code:
+
+ntlm auth = yes
+
+Then restart the Samba daemon
+Code:
+
+systemctl restart smb
+</pre>
+<hr />
+
+<h1>Samba and very slow performance to windows xp sp2</h1>
+<pre>
+http://knoppix.net/forum/showthread.php?14741-Samba-and-very-slow-performance-to-windows-xp-sp2
+
+# This will prevent nmbd to search for NetBIOS names through DNS.
+
+   dns proxy = no
+
+# Most people will find that this option gives better performance.
+
+# See smb.conf(5) and /usr/share/doc/samba-doc/htmldocs/speed.html
+
+# for details
+
+# You may want to add the following on a Linux system:
+
+#         SO_RCVBUF=8192 SO_SNDBUF=8192
+
+   socket options = TCP_NODELAY SO_RCVBUF=8192 SO_SNDBUF=8192
+</pre>
+<hr />
+
+<h1>samba sahre folder for all but write who shas chown on folder</h1>
+<pre>
+[pub]
+writable = yes
+path = /home/samba/pub
+public = yes
+guest ok = yes
+#guest only = yes
+guest account = nobody
+browsable = yes
+write list = +staff"
+</pre>
+<hr />
+
+<h1>Accessing an SMB Share With Linux Machines</h1>
+<pre>
+http://www.tldp.org/HOWTO/SMB-HOWTO-8.html
+
+smbclient -L 192.168.1.x --user username #shows available shares on specified host
+
+smbclient \\\\192.168.1.x\\d --user username mypasswd #shows content of specified shared folder
+</pre>
+<hr />
+
+
+<h1>permission to acces shared directory</h1>
+<pre>
+samba shared directory usualy is located in sub directory, and sometimes it is not with users home directory and is located in different path
+
+when we are trying to acces directory error occured with message that we have not permission
+one of solution is to check permission
+if it is mounted disk for example /mnt/sambadisk
+then /mnt/sambadisk must have 755 mode
+and all parent directories for concrete users shared directory must have also 755 mode 
+chmod 755 /pathtoparentdirectory
+and after just users share directory maybe limited with 0700 mode
+for example 
+chmod 0700 /pathtoparentdirectory/shareddirectory
+</pre>
+<hr />
+
+<h1>Creating RAID 5 (Striping with Distributed Parity) in Linux</h1>
+<pre>
+<a href="https://www.tecmint.com/create-raid-5-in-linux/">https://www.tecmint.com/create-raid-5-in-linux/</a>
+
+yum install mdadm
+
+After the ‘mdadm‘ package installation, let’s list the three 20GB disks which we have added in our system using ‘fdisk‘ command.
+
+fdisk -l | grep sd
+Now it’s time to examine the attached three drives for any existing RAID blocks on these drives using following command.
+
+mdadm -E /dev/sd[b-d]
+mdadm --examine /dev/sdb /dev/sdc /dev/sdd
+
+Note: From the above image illustrated that there is no any super-block detected yet. So, there is no RAID defined in all three drives. Let us start to create one now.
+
+Partitioning the Disks for RAID
+First and foremost, we have to partition the disks (/dev/sdb, /dev/sdc and /dev/sdd) before adding to a RAID, So let us define the partition using ‘fdisk’ command, before forwarding to the next steps.
+
+fdisk /dev/sdb
+fdisk /dev/sdc
+fdisk /dev/sdd
+
+Create /dev/sdb Partition
+
+Please follow the below instructions to create partition on /dev/sdb drive.
+
+    Press ‘n‘ for creating new partition.
+    Then choose ‘P‘ for Primary partition. Here we are choosing Primary because there is no partitions defined yet.
+    Then choose ‘1‘ to be the first partition. By default it will be 1.
+    Here for cylinder size we don’t have to choose the specified size because we need the whole partition for RAID so just Press Enter two times to choose the default full size.
+    Next press ‘p‘ to print the created partition.
+    Change the Type, If we need to know the every available types Press ‘L‘.
+    Here, we are selecting ‘fd‘ as my type is RAID.
+    Next press ‘p‘ to print the defined partition.
+    Then again use ‘p‘ to print the changes what we have made.
+    Use ‘w‘ to write the changes.
+Note: We have to follow the steps mentioned above to create partitions for sdc & sdd drives too.
+
+Create /dev/sdc Partition
+
+Now partition the sdc and sdd drives by following the steps given in the screenshot or you can follow above steps.
+
+fdisk /dev/sdc
+
+Create /dev/sdd Partition
+
+fdisk /dev/sdd
+
+After creating partitions, check for changes in all three drives sdb, sdc, & sdd.
+
+mdadm --examine /dev/sdb /dev/sdc /dev/sdd
+or
+mdadm -E /dev/sd[b-c]
+
+Note: In the above pic. depict the type is fd i.e. for RAID.
+
+Now Check for the RAID blocks in newly created partitions. If no super-blocks detected, than we can move forward to create a new RAID 5 setup on these drives.
+
+mdadm --examine /dev/sdb1 /dev/sdc1 /dev/sdd1
+
+Creating md device md0
+
+Now create a Raid device ‘md0‘ (i.e. /dev/md0) and include raid level on all newly created partitions (sdb1, sdc1 and sdd1) using below command.
+
+mdadm --create /dev/md0 --level=5 --raid-devices=3 /dev/sdb1 /dev/sdc1 /dev/sdd1
+or
+mdadm -C /dev/md0 -l=5 -n=3 /dev/sd[b-d]1
+
+After creating raid device, check and verify the RAID, devices included and RAID Level from the mdstat output.
+
+cat /proc/mdstat
+
+After creation of raid, Verify the raid devices using the following command.
+
+mdadm -E /dev/sd[b-d]1
+
+Note: The Output of the above command will be little long as it prints the information of all three drives.
+
+Next, verify the RAID array to assume that the devices which we’ve included in the RAID level are running and started to re-sync.
+
+mdadm --detail /dev/md0
+
+Creating file system for md0
+
+Create a file system for ‘md0‘ device using ext4 before mounting.
+
+mkfs.ext4 /dev/md0
+
+Now create a directory under ‘/mnt‘ then mount the created filesystem under /mnt/raid5 and check the files under mount point, you will see lost+found directory.
+
+mkdir /mnt/raid5
+mount /dev/md0 /mnt/raid5/
+ls -l /mnt/raid5/
+
+ Create few files under mount point /mnt/raid5 and append some text in any one of the file to verify the content.
+
+touch /mnt/raid5/raid5_tecmint_{1..5}
+ls -l /mnt/raid5/
+echo "tecmint raid setups" > /mnt/raid5/raid5_tecmint_1
+cat /mnt/raid5/raid5_tecmint_1
+cat /proc/mdstat
+
+We need to add entry in fstab, else will not display our mount point after system reboot. To add an entry, we should edit the fstab file and append the following line as shown below. The mount point will differ according to your environment.
+
+# vim /etc/fstab
+/dev/md0                /mnt/raid5              ext4    defaults        0 0
+
+Next, run ‘mount -av‘ command to check whether any errors in fstab entry.
+
+mount -av
+
+Save Raid 5 Configuration
+
+As mentioned earlier in requirement section, by default RAID don’t have a config file. We have to save it manually. If this step is not followed RAID device will not be in md0, it will be in some other random number.
+
+So, we must have to save the configuration before system reboot. If the configuration is saved it will be loaded to the kernel during the system reboot and RAID will also gets loaded.
+
+mdadm --detail --scan --verbose >> /etc/mdadm.conf
+</pre>
+<hr />
+
+<h1>Raid replace disk</h1>
+
+<pre>
+to replace disk at /dev/sdc
+first remove old bad disk or anyway reason for it and add new at the same place
+examine what disks are availabe for raid from /dev/sdb to /dev/sdc
+mdadm -E /dev/sd[b-c]
+then create disk with fdisk command
+
+for our example we hawe raid on /dev/md0 and mounted to /mnt/raid1
+
+fdisk /dev/sdc
+n -- to create new partition
+          p -- to make partition primary
+p - to print status
+then enter to use all size of disk
+t - for making typ of filesystem
+L - to see list of available types and find ""fd =  linux raid auto ""
+fd - to set type to linux raid auto
+p to print status
+w to write changes
+
+unmount mount point
+umoint /mnt/raid1
+stop raid with
+mdadm --stop /dev/md0
+
+
+to remove disk from array
+Before removing a disk we have to mark the disk as failed one, then only we can able to remove it.
+mdadm --fail /dev/md0 /dev/sdc1
+mdadm --detail /dev/md0
+mdadm --remove /dev/md0 /dev/sdc1
+mdadm --detail /dev/md0
+mount | grep raid1
+ls -l /mnt/raid1 | grep tecmint
+cat /mnt/raid1/tecmint.txt
+
+mdadm --detail /dev/md0
+
+#you must  be out of directory where is mounted /dev/md0, because mdadm wil show error that mount is busy
+#after that add new disk to raid array with command
+
+mdadm --manage /dev/md0 --add /dev/sdc1
+
+Next check the raid devices type and raid array using following commands.
+
+# mdadm -E /dev/sd[b-c]1
+# mdadm --detail /dev/md0
+
+mount /dev/md0 /mnt/raid1
+
+other information can be found in
+https://www.tecmint.com/create-raid1-in-linux/
+https://www.tecmint.com/recover-data-and-rebuild-failed-software-raid/
+https://www.tecmint.com/grow-raid-array-in-linux/
+https://ubuntuforums.org/archive/index.php/t-1034341.html
+</pre>
+<hr />
+
+
+<h1>Raid Recovering from a Redundancy Loss</h1>
+
+<pre>
+As explained earlier, mdadm will automatically rebuild the data when one disk fails. But what happens if 2 disks in the array fail? Let’s simulate such scenario by marking /dev/sdb1 and /dev/sdd1 as faulty:
+
+umount /mnt/raid1
+mdadm --manage --set-faulty /dev/md0 /dev/sdb1
+mdadm --stop /dev/md0
+mdadm --manage --set-faulty /dev/md0 /dev/sdd1
+
+Attempts to re-create the array the same way it was created at this time (or using the --assume-clean option) may result in data loss, so it should be left as a last resort.
+
+Let’s try to recover the data from /dev/sdb1, for example, into a similar disk partition (/dev/sde1 – note that this requires that you create a partition of type fd in /dev/sde before proceeding) using ddrescue:
+
+ddrescue -r 2 /dev/sdb1 /dev/sde1
+
+
+Please note that up to this point, we haven’t touched /dev/sdb or /dev/sdd, the partitions that were part of the RAID array.
+
+Now let’s rebuild the array using /dev/sde1 and /dev/sdf1:
+
+mdadm --create /dev/md0 --level=mirror --raid-devices=2 /dev/sd[e-f]1
+
+Please note that in a real situation, you will typically use the same device names as with the original array, that is, /dev/sdb1 and /dev/sdc1 after the failed disks have been replaced with new ones.
+
+In this article I have chosen to use extra devices to re-create the array with brand new disks and to avoid confusion with the original failed drives.
+
+When asked whether to continue writing array, type Y and press Enter. The array should be started and you should be able to watch its progress with:
+
+watch -n 1 cat /proc/mdstat
+
+https://www.tecmint.com/recover-data-and-rebuild-failed-software-raid/
+</pre>
+<hr />
+
+<h1>Disable screen sleep</h1>
+<pre>
+http://www.raspberry-projects.com/pi/pi-operating-systems/raspbian/gui/disable-screen-sleep
+
+sudo nano /etc/lightdm/lightdm.conf
+
+ Add the following lines to the [SeatDefaults] section: 
+
+# don't sleep the screen
+xserver-command=X -s 0 dpms
+
+# Also usefull link for disabling sleep on LXDE
+http://www.linuxquestions.org/questions/arch-29/screen-goes-blank-after-ten-minutes-in-lxde-how-to-change-this-769000/
+
+X itself puts on this screensaver by default. You can check this with xset q. To disable, type
+
+bash:$ xset s off
+
+X also automatically puts your pc in standby after 20 minutes or something, and it puts it into hibernate after 30. It would turn it off after 10 more minutes if it could. To disable this too, type:
+
+bash:$ xset -dpms
+
+You can do this automatically when you log in successfully by putting these lines in ~/.xsessionrc:
+
+robo@anonymous:~$ nano .xsessionrc
+#add these lines without @ prefix
+xset s noblank
+xset s off
+xset -dpms
+
+
+
+nano /etc/xdg/lxsession/LXDE-pi/autostart
+
+@xset s noblank
+@xset s off
+@xset -dpms
+
+
+nano /etc/xdg/lxsession/LXDE/autostart
+
+@xset s noblank
+@xset s off
+@xset -dpms
+</pre>
+<hr />
+
+
+<h1>Simple SAMBA config file</h1>
+<pre>
+#======================= Global Settings =======================
+[global]
+workgroup = WORKGROUP
+server string = %h server
+dns proxy = no
+log level = 0
+syslog = 0
+log file = /var/log/samba/log.%m
+max log size = 1000
+syslog only = yes
+panic action = /usr/share/samba/panic-action %d
+encrypt passwords = true
+passdb backend = tdbsam
+obey pam restrictions = yes
+unix password sync = no
+passwd program = /usr/bin/passwd %u
+passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n $
+pam password change = yes
+socket options = TCP_NODELAY IPTOS_LOWDELAY
+guest account = nobody
+load printers = no
+disable spoolss = yes
+printing = bsd
+printcap name = /dev/null
+unix extensions = yes
+wide links = no
+create mask = 0777
+directory mask = 0777
+use sendfile = yes
+aio read size = 16384
+aio write size = 16384
+null passwords = no
+local master = yes
+time server = no
+wins support = no
+
+#======================= Share Definitions =======================
+#======================= Home Directories =======================
+[homes]
+comment = Home directories
+browseable = yes
+writable = yes
+create mask = 0640
+directory mask = 0750
+valid users = %S
+
+[user1]
+writable = yes
+path = /home/user1
+guest account = nobody
+browsable = yes
+valid users = user1
+</pre>
+<hr />
+
+<h1>Create an ISO Image File in Linux</h1>
+<pre>
+http://www.linuxlookup.com/howto/create_iso_image_file_linux
+
+#to make from cdrom
+dd if=/dev/cdrom of=/directory/example.iso
+
+#to make from folder
+mkisofs -o /home/linuxlookup/example.iso /source/directory/
+</pre>
+<hr />
+
+<h1>Storage Controller System UNRAID for Network Attached System NAS / RAID</h1>
+<pre>
+https://lime-technology.com/getting-started/
+https://lime-technology.com/network-attached-storage/
+
+</pre>
+<hr />
+
+
+<h1>Driver Database for Hardware, RAID controller, Disk Management etc..</h1>
+<pre>
+<a href="http://driverguide.com">http://driverguide.com</a>
+
+<a href="https://driverscollection.com/">https://driverscollection.com/</a>
+
+<a href="https://www.broadcom.com/support/knowledgebase/1211161468497/i-need-a-linux-driver-for-my-lsi-3ware-and-megaraid-controllers">https://www.broadcom.com/support/knowledgebase/1211161468497/i-need-a-linux-driver-for-my-lsi-3ware-and-megaraid-controllers</a>
+
+</pre>
+<hr />
+
+<h1>Get information Commands</h1>
+<pre>
+dmesg
+lspci
+dmidecode
+</pre>
+<hr />
+
+<h1>Fedora17 Install does not detect 3ware 7006-2 hardware RAID controller</h1>
+<pre>
+http://forums.fedoraforum.org/showthread.php?t=284933
+
+I tried "pci=assign-busses" on the boot line and the installer has successfully detected my RAID controller!
+</pre>
+<hr />
+<h1>/opt/kingsoft/wps-office/office6/wpp: error while loading shared libraries: libbz2.so.1.0: cannot open shared object file: No such file or directory</h1>
+<pre>
+cd /usr/lib64 #for 64bit office
+cd /usr/lib #for 32bit office
+ln -s libbz2.so.1.0.x libbz2.so.1.0 #where x is current version number
+</pre>
+
+<hr />
+
+<h1>Kodi addon repository</h1>
+<pre>
+https://superrepo.org/get-started/
+
+under -> System ->File
+add http://srp.nu 
+
+https://seo-michael.co.uk/how-to-install-the-covenant-kodi-krypton/
+
+To Install Covenant Jarvis:
+
+    Open Kodi
+    Select SYSTEM (or settings depending on the skin)
+    Select File Manager
+    Select Add Source
+    Select None, type the following EXACTLY http://mediarepos.net/kodistuff and select Done
+    Highlight the box underneath marked enter a name for this media source & type kodistuff and click OK
+    Go back to your home screen
+    Select SYSTEM (or settings depending on the skin)
+    Select Add-Ons
+    Select Install from Zip File
+    Select kodistuff
+    Select Repocolossus.zip
+    Wait for the Add-on enabled notification
+    Select Install from Repository
+    Select Colossus Repository
+    Select Video Add-ons
+    Select Covenant
+    Select Install
+    Wait for Add-on enabled notification
+
+https://seo-michael.co.uk/how-to-install-exodus-on-kodi-krypton/
+
+
+  Open Kodi
+    Select SYSTEM (or settings depending on the skin)
+    Select File Manager
+    Select Add Source
+    Select None, type the following EXACTLY http://mediarepos.net/kodistuff and select Done
+    Highlight the box underneath marked enter a name for this media source & type kodistuff and click OK
+    Go back to your home screen
+    Select SYSTEM (or settings depending on the skin)
+    Select Add-Ons
+    Select Install from Zip File
+    Select kodistuff
+    Select Smashrepo.zip
+    Wait for the Add-on enabled notification
+    Select Install from Repository
+    Select Colossus Repository
+    Select Video Add-ons
+    Select Covenant
+    Select Install
+    Wait for Add-on enabled notification
+</pre>
+
+<hr />
+
+<h1>How to enable touchpad click</h1>
+<pre>
+	https://fedoraproject.org/wiki/How_to_enable_touchpad_click
+
+	#before use guide
+	install xorg-x11-drv-synaptics
+	or 
+	install xorg-x11-drv-synaptics-legacy
+
+	 Other window managers
+
+	Create a new file named /etc/X11/xorg.conf.d/99-synaptics-overrides.conf.
+
+	Then, in your favourite text editor, modify this file as such:
+
+	Section  ""InputClass""
+		Identifier  ""touchpad overrides""
+		# This makes this snippet apply to any device with the ""synaptics"" driver
+		# assigned
+		MatchDriver  ""synaptics""
+
+		####################################
+		## The lines that you need to add ##
+		# Enable left mouse button by tapping
+		Option  ""TapButton1""  ""1""
+		# Enable vertical scrolling
+		Option  ""VertEdgeScroll""  ""1""
+		# Enable right mouse button by tapping lower right corner
+		Option ""RBCornerButton"" ""3""
+		####################################
+
+	EndSection
+
+	#Another variant of touchpad  configuration:
+
+	https://wiki.archlinux.org/index.php/Touchpad_Synaptics
+
+	Frequently used options
+
+	The following example file configures some common options, including vertical, horizontal and circular scrolling as well as tap-to-click:
+
+	/etc/X11/xorg.conf.d/70-synaptics.conf
+
+	Section "InputClass"
+		Identifier "touchpad"
+		Driver "synaptics"
+		MatchIsTouchpad "on"
+			Option "TapButton1" "1"
+			Option "TapButton2" "3"
+			Option "TapButton3" "2"
+			Option "VertEdgeScroll" "on"
+			Option "VertTwoFingerScroll" "on"
+			Option "HorizEdgeScroll" "on"
+			Option "HorizTwoFingerScroll" "on"
+			Option "CircularScrolling" "on"
+			Option "CircScrollTrigger" "2"
+			Option "EmulateTwoFingerMinZ" "40"
+			Option "EmulateTwoFingerMinW" "8"
+			Option "CoastingSpeed" "0"
+			Option "FingerLow" "30"
+			Option "FingerHigh" "50"
+			Option "MaxTapTime" "125"
+			...
+	EndSection
+
+	TapButton1
+		(integer) configures which mouse-button is reported on a non-corner, one finger tap.
+	TapButton2
+		(integer) configures which mouse-button is reported on a non-corner, two finger tap
+	TapButton3
+		(integer) configures which mouse-button is reported on a non-corner, three finger tap
+	RBCornerButton
+		(integer) configures which mouse-button is reported on a right bottom corner, one finger tap (use Option "RBCornerButton" "3" to achieve Ubuntu style tap behaviour for right mouse button in lower right corner)
+	RTCornerButton
+		(integer) as above, but for top right corner, one finger tap.
+	VertEdgeScroll
+		(boolean) enables vertical scrolling while dragging across the right edge of the touch pad.
+	HorizEdgeScroll
+		(boolean) enables horizontal scrolling while dragging across the bottom edge of the touch pad.
+	VertTwoFingerScroll
+		(boolean) enables vertical scrolling using two fingers.
+	HorizTwoFingerScroll
+		(boolean) enables horizontal scrolling using two fingers.
+	EmulateTwoFingerMinZ/W
+		(integer) play with this value to set the precision of two finger scroll.
+	FingerLow
+		(integer) when finger pressure drops below this value, the driver counts it as a release.
+	FingerHigh
+		(integer) when finger pressure goes above this value, the driver counts it as a touch.
+	MaxTapTime
+		Determines how "crisp" a tap must be to be considered a real tap. Decrease the value to require a more crisp tap. Properly adjusting this parameter can reduce false positives when the hands hover over or lightly touch the pad.
+	VertScrollDelta and HorizScrollDelta
+		(integer) configures the speed of scrolling, it is a bit counter-intuitive because higher values produce greater precision and thus slower scrolling. Negative values cause natural scrolling like in macOS.
+
+	Note:
+
+		If you find that your hand frequently brushes your touchpad, causing the TapButton2 option to be triggered (which will more than likely paste from your clipboard), and you do not mind losing two-finger-tap functionality, set TapButton2 to 0. Alternatively, see #Disable touchpad while typing.
+		Recent versions include a "Coasting" feature, enabled by default, which may have the undesired effect of continuing almost any scrolling until the next tap or click, even if you are no longer touching the touchpad. This means that to scroll just a bit, you need to scroll (by using the edge, or a multitouch option) and then almost immediately tap the touchpad, otherwise scrolling will continue forever. If wish to avoid this, set CoastingSpeed to 0.
+		If your touchpad is too sensitive, use higher values for FingerLow and FingerHigh and vice versa. Remember that FingerLow should be smaller than FingerHigh
+
+</pre>
+<hr />
+<h1>How to disable touchpad when typing on keyboard</h1>
+<pre>
+https://www.linuxquestions.org/questions/linux-laptop-and-netbook-25/disabling-touchpad-while-typing-how-to-make-it-permanently-enabled-4175631285/
+https://community.linuxmint.com/tutorial/view/109
+
+add this in autostart or just run from terminal:
+syndaemon -i 0.5 -K -R
+where number after -i mans how many secons to wait after the last key press before
+     enabling the touchpad. (default is 2.0s) 
+
+also is possible to add argument -d to run as daemon i.e. in the background
+
+syndaemon -i 0.5 -K -R -d
+or with default values
+syndaemon -d
+</pre>
+
+<hr />
+
+<h1>Viber on Fedora 26</h1>
+<pre>
+https://venelin.sytes.net/blog/linux/podkarvane-na-viber-pod-fedora-26/
+#ERROR:
+	qt.network.ssl: QSslSocket: cannot resolve CRYPTO_num_locks
+	qt.network.ssl: QSslSocket: cannot resolve CRYPTO_set_id_callback
+	qt.network.ssl: QSslSocket: cannot resolve CRYPTO_set_locking_callback
+	qt.network.ssl: QSslSocket: cannot resolve ERR_free_strings
+	...
+
+#SOLUTION
+	ln -s /usr/lib64/libssl.so.1.0.2j /opt/viber/lib/
+	ln -s /usr/lib64/libssl.so.1.0.2j /opt/viber/lib/libssl.so
+</pre>
+
+<hr />
+
+<h1>brightness management with xbacklight does not works on laptop:</h1>
+<pre>
+https://ask.fedoraproject.org/question/8780/how-can-i-change-brightness-of-laptop-on-fedora-15-or-16/
+install xbacklight
+xbacklight -set 70 // or any number from 0 to 100
+Add to grub line this :   acpi_backlight=vendor
+
+backlight command offten does not works becaus it needs more configuration in xorg.conf file
+for alternative way look at chapter:
+"brightness management does not works on laptop"
+</pre>
+
+<hr />
+
+<h1>brightness management does not works on laptop:</h1>
+<pre>
+Solution
+   1. run command
+   xrandr --output eDP-1 --brightness 0.x
+   where x is number from 0 to 10
+   
+   2. create shell script
+   
+   #/bin/sh
+   
+  xrandr --output eDP-1 --brightness $1
+  
+  save for example as custombrightness and add to startup 
+  /pathtofile/custombrightness 0.x
+  where x is number from 0 to 10
+</pre>
+
+
+<hr />
+<h1>&nbsp;&nbsp;&nbsp;&nbsp;notebook brigthness keys</h1>
+<pre>
+	http://forum.lxde.org/viewtopic.php?f=5&t=1374
+	
+	Because of the restricted access to the backlight adjustment program this is the most complicated part of the keybinding tutorial. Start by creating a script to adjust screen brightness when called from xbindkeys:
+	
+	File: /usr/bin/adjust_brightness.sh
+	
+	# The first argument is whether to increase the brightness (+) or
+	# decrease the brightness (-).
+	# The second argument is optional and indicates the step size when
+	# increasing or decreasing the brightness. The default is 1.
+	if [ $# -eq 0 ]; then exit 1; fi
+	bright_file=""/sys/class/backlight/dcon-bl/brightness""
+	mbright_file=""/sys/class/backlight/dcon-bl/max_brightness""
+	while read line; do
+	brightness=$line
+	done < $(cat ""$bright_file"")
+	while read line; do
+	max_brightness=$line
+	done < $(cat ""$mbright_file"")
+	step=1
+	if [ $# -gt 1 ]; then
+	step=$2
+	fi
+	declare -i brightness
+	if [ $1 = ""-"" ]; then
+	if [ $brightness -ne 0 ]; then
+	brightness=$brightness-$step;
+	echo $brightness > /sys/class/backlight/dcon-bl/brightness
+	fi
+	else
+	if [ $brightness -ne $max_brightness ]; then
+	brightness=$brightness+$step;
+	echo $brightness > $bright_file
+	fi
+	fi
+	
+	Don't worry if you don't understand the above script. You can just copy and paste the contents into the file you create when using the following command:
+	# nano /usr/bin/adjust_brightness.sh
+	
+	Now you must make this file executable:
+	# chmod a+x /usr/bin/adjust_brightness.sh
+	
+	Open the keybindings file and have the ""dim"" (c:75) and ""bright"" (c:76) keys execute the above script:
+	# nano /home/olpc/.xbindkeysrc
+	
+	and paste the following before ""End of Xbindkeys configuration"" :
+	## Reduce brightness
+	""/usr/bin/adjust_brightness.sh -""
+	c:75
+	
+	## Increase brightness
+	""/usr/bin/adjust_brightness.sh +""
+	c:76
+	
+	
+	
+	----------------------------------------------
+	also chekc thath xbindkeys is installed
+	
+	#if not then for rpm based on yum install
+	yum install xbindkeys
+	
+	#on dnf package manager
+	dnf install xbindkeys
+	
+	#then copy xbindkeys to local xbibdkey configuration
+	xbindkeys -d > ~/.xbindkeysrc
+	
+</pre>
+<hr />
+
+<H1>Notebook brightness adjustment with brightnessctl and hot keys</H1>
+<pre>
+    if above howto's does not helps there is also another way, it is to install brightnessctl package
+    yum install brightnessctl
+    or
+    dnf install brightnessctl
+    ...
+
+    
+    brightnessctl has commands for seting incrementing and decrementing value for bgightness
+    brightnessctl s +10% means to increment brightness with 10%
+    brightnessctl s 10%- means to decrement brightness with 10%
+    brightnessctl s 70% means to set brightness to 70%
+    
+    to use these commands with hot keys most desktno environments has powermanagement gui and possibility to use hot keys without configuration
+    but some desktop environment for example lxde does not have gui for settigns these options
+    to make hot keys in lxde run command from menu 
+    Preferences -> Setup Hot Keys
+        Create New Actions -> Add an action -> Execute -> Apply
+        select Execute and and option to selection by pressing plus button
+        Choose name command and in value put command to execute, for example to increment value of brightness with 100 write
+        sudo /bin/brightnessctl s +10%
+            to decrement value of brightness with 100 
+        sudo /bin/brightnessctl s 10%-
+        after applying this option set hotkey by pressing hotkey1 button and after type compination of keys on keyboard
+        for incrementing Fn+(Big Sun symbol)
+            which looks like XF86MonBrightnessDown
+        for deccrementing Fn+(Small Sun symbol)
+            which looks like XF86MonBrightnessUp
+            
+        and finally save all changes
+</pre>
+
+<H1>Notebook brightness adjustment with brightlight and hot keys</H1>
+<pre>
+    if above howto's does not helps there is also another way, it is to install brightlight package.
+    unlike brightnessctl brightlight needs admin privileges.
+    
+    yum install brightlight
+    or
+    dnf install brightlight
+    ...
+    
+    after add user to use brightlight as administrator with sudo
+    
+    visudo
+    someusername    ALL=NOPASSWD: /bin/brightlight
+    
+    where someusername will run command brightlight without password
+    
+    brightlight has commands for seting incrementing and decrementing value for bgightness
+    brightlight -i 100 means to increment brightness with 100
+    brightlight -d 100 means to decrement brightness with 100
+    brightlight -w 700 means to set brightness to 700
+    
+    to use these commands with hot keys most desktno environments has powermanagement gui and possibility to use hot keys without configuration
+    but some desktop environment for example lxde does not have gui for settigns these options
+    to make hot keys in lxde run command from menu 
+    Preferences -> Setup Hot Keys
+        Create New Actions -> Add an action -> Execute -> Apply
+        select Execute and and option to selection by pressing plus button
+        Choose name command and in value put command to execute, for example to increment value of brightness with 100 write
+        sudo /bin/brightlight -i 100
+            to decrement value of brightness with 100 
+        sudo /bin/brightlight -d 100
+        after applying this option set hotkey by pressing hotkey1 button and after type compination of keys on keyboard
+        for incrementing Fn+(Big Sun symbol)
+            which looks like XF86MonBrightnessDown
+        for deccrementing Fn+(Small Sun symbol)
+            which looks like XF86MonBrightnessUp
+            
+        and finally save all changes
+</pre>
+
+
+<a name="error_preun"></a>
+<h1>
+error: %preun ....   scriptlet failed, exit status 1<br>
+yum error in PREUN scriptlet when removing packages
+</h1>
+<pre>
+solve with command:
+rpm -e --nodeps --allmatches --noscripts packagename.rpm
+
+or try this
+
+https://serverfault.com/questions/613256/yum-error-in-preun-scriptlet-when-removing-packages
+dnf-utils or yum-utils must be installed depends on operating system
+yum clean all && rpm --rebuilddb
+or
+dnf clean all && rpm --rebuilddb
+
+package-cleanup --problems
+
+yum --setopt=tsflags=noscripts remove packatetoremove*
+or
+dnf --setopt=tsflags=noscripts remove packatetoremove*"
+</pre>
+<hr />
+<h1>Fedora 27/26/25 nVidia Drivers Install Guide</h1>
+<pre>
+<a href="https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/" target="_blank">https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/</a>
+## Fedora 27/26/25/24/23/22 ##
+dnf install kernel-devel kernel-headers gcc dkms acpid libglvnd-glx libglvnd-opengl libglvnd-devel pkgconfig
+## Fedora 21 ##
+yum install kernel-devel kernel-headers gcc dkms acpid
+
+Create or edit /etc/modprobe.d/blacklist.conf
+Append 'blacklist nouveau'
+echo "blacklist nouveau" >> /etc/modprobe.d/blacklist.conf
+
+
+Edit /etc/sysconfig/grub
+Append 'rd.driver.blacklist=nouveau' to end of 'GRUB_CMDLINE_LINUX="…"'
+
+
+## Example row ##
+GRUB_CMDLINE_LINUX="rd.lvm.lv=fedora/swap rd.lvm.lv=fedora/root rhgb quiet rd.driver.blacklist=nouveau"
+
+Update grub2 conf
+## BIOS ##
+grub2-mkconfig -o /boot/grub2/grub.cfg
+
+## UEFI ##
+grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+
+
+Generate initramfs
+
+## Backup old initramfs nouveau image ##
+mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r)-nouveau.img
+ 
+## Create new initramfs image ##
+dracut /boot/initramfs-$(uname -r).img $(uname -r)
+
+Reboot to runlevel 3
+
+Note: You don’t have Desktop/GUI on runlevel 3. Make sure that you have some access to end of guide. (Print it, use lynx/links/w3m, save it to text file).
+Bash
+
+systemctl set-default multi-user.target
+
+reboot
+
+
+
+</pre>
+<hr />
+<h1>grub2-mkconfig (system rescue)</h1>
+<pre>
+http://doc.opensuse.org/documentation/html/openSUSE/opensuse-reference/grub2.html
+Remember after any change to GRUB2 configuration files runing:
+grub2-mkconfig -o  /boot/grub2/grub.cfg 
+fdisk -l
+grub2-install /dev/sdx //x=character of disk
+</pre>
+
+
+<hr />
+<h1>iPhone mount in linux</h1>
+<pre>
+<a href="https://fedoraproject.org/wiki/Apple" target="_blank">https://fedoraproject.org/wiki/Apple</a>
+
+dnf install ifuse libplist libplist-python libimobiledevice-utils libimobiledevice-devel libimobiledevice usbmuxd gvfs-afc gvfs-gphoto2
+
+ File access
+
+File access requires AFC-protocol extension for GFS (gnome file system) and is available in gvfs-afc package.
+Nautilus
+
+The removal of the nautilus properties page on an connected idevice does have an effect that a nautilus-ideviceinfo extension that has been in gnome git for many years cannot be easily exposed and used and a gnome bugzilla entry has been active from last year without even a comment to date.
+Commandline
+
+All commands should be given as the same user as mount point is later used, most likely as regular user if files are accessed using GUI tools and normal user permissions. Otherwise ifuse does not even show mount point for unpriviledged users.
+
+% idevicepair pair
+SUCCESS: Paired with device e430df2262310bc88e16abde812a526c36ce8076
+
+Mount point directory /mnt/a must exist and be user writable. Images taken with camera, screenshots etc are under DCIM folder tree.
+
+% ifuse /mnt/a
+% mount | grep ifuse
+ifuse                          57852424   12774908  45077516  23% /mnt/a
+
+Unmounting (if not done and unplugging, those become stale and mountpoint cannot be reused):
+
+% fusermount -u /mnt/a
+
+If unmounting fails, regardless that nothing is using mount point anymore, try pulling cable and again:
+
+% fusermount -u /mnt/a
+fusermount: failed to unmount /mnt/a: Device or resource busy
+% fusermount -u /mnt/a
+
+
+
+
+
+</pre>
+<hr />
+<h1>OpenSSH Deny or Restrict Access To Users and Groups</h1>
+<pre>
+<a href="https://www.cyberciti.biz/tips/openssh-deny-or-restrict-access-to-users-and-groups.html" target="_blank">https://www.cyberciti.biz/tips/openssh-deny-or-restrict-access-to-users-and-groups.html</a>
+
+Restricting which users can log in
+
+The syntax is:
+DenyUsers user1 user2 user3
+Use DenyUsers to block user login. You can use wild cards as well as user1@cyberciti.com (user1 is not allowed to login from cyberciti.com host) pattern.
+
+DenyGroups group1 group2
+A list of group names, if user is part of primary of supplementary group login access is denied. You can use wildcards. Please note that you cannot use a numeric group or username ID. If these directives are not used, default is to allow everyone.
+Allowing selected users or group explicitly to log in
+
+The syntax is:
+AllowUsers user1 user2
+This directive is opposite of DenyUsers directive i.e. user1 and user2 are only allowed to log in into the server.
+
+AllowGroups group1 group2
+This directive is opposite of DenyGroups directive i.e. members of group1 and group2 users are only allowed to log in into the server.
+
+
+
+<h3>Examples</h3>
+To help secure your OpenSSH based server you can be explicitly allowing users sai and vivek to log in via SSH. Edit the file /etc/ssh/sshd_config as the super user:
+
+sudo vi /etc/ssh/sshd_config
+
+Add/edit/append the following line:
+
+AllowUsers sai vivek
+
+Save and close the file. Next, restart your SSH daemon service.
+
+
+
+
+</pre>
+<hr />
+<h1>Run cron job to play sound file</h1>
+<pre>
+    #example for school bell play
+    00  9  *  *  1 username  mplayer /path/soundfile.ogg
+    00  9  *  *  2 username  mplayer /path/soundfile.ogg
+    00  9  *  *  3 username  mplayer /path/soundfile.ogg
+    00  9  *  *  4 username  mplayer /path/soundfile.ogg
+    00  9  *  *  6 username  mplayer /path/soundfile.ogg
+    
+    45  9  *  *  1 username  mplayer /path/soundfile.ogg
+    45  9  *  *  2 username  mplayer /path/soundfile.ogg
+    45  9  *  *  3 username  mplayer /path/soundfile.ogg
+    45  9  *  *  4 username  mplayer /path/soundfile.ogg
+    45  9  *  *  6 username  mplayer /path/soundfile.ogg
+    
+    50  9  *  *  1 username  mplayer /path/soundfile.ogg
+    50  9  *  *  2 username  mplayer /path/soundfile.ogg
+    50  9  *  *  3 username  mplayer /path/soundfile.ogg
+    50  9  *  *  4 username  mplayer /path/soundfile.ogg
+    50  9  *  *  6 username  mplayer /path/soundfile.ogg
+    
+    ...
+    
+    #username must user from which will play sound
+</pre>
+
+<hr />
+<h1>PostgreSQL: initialize databaze directory</h1>
+<pre>
+<a href="http://toroid.org/ams/installing-postgres">http://toroid.org/ams/installing-postgres</a>
+
+initdb --locale=en_US.UTF-8 --encoding=UNICODE
+</pre>
+
+
+<hr />
+<h1>How do I install pgcrypto in PostgreSQL 8.4?</h1>
+<pre>
+<a href="https://dba.stackexchange.com/questions/1883/how-do-i-install-pgcrypto-in-postgresql-8-4#15884PostgreSQL 9.1+">https://dba.stackexchange.com/questions/1883/how-do-i-install-pgcrypto-in-postgresql-8-4#15884PostgreSQL 9.1+</a>
+
+Note that I'm working on Ubuntu 12.04, which uses postgresql 9.1.
+
+There, I needed to:
+
+ (apt-get | yum | dnf) install postgresql-contrib
+
+find latest pgcrypto--.sql module 
+for example pgcrypto--1.3.sql
+it's located depends on OS and postgresql versions
+in fedora 27 it is located in /usr/share/pgsql/extension
+after that we have pgcrypto--x.sql file fo in database 
+su - postgres
+psql databasename
+# and install extension
+\i /usr/share/pgsql/extension/pgcrypto--1.3.sql
+#then run command
+CREATE EXTENSION pgcrypto;
+
+then use command to generate crypted text
+#for example 
+update users set password=digest('1234','sha') where id=1
+sets password with hex prefix \x
+to set without prefix use encode function
+update users set password=encode(digest('123','sha1'), 'hex') where id=1
+
+</pre>
+
+<hr />
+<h1>Remote desktop</h1>
+<pre>
+https://www.raspberrypi.org/documentation/remote-access/vnc/
+
+sudo apt-get install tightvncserver
+tightvncserver
+vncserver :1 -geometry 1280x1024 -depth 24
+
+service lightdm stop
+
+
+Now, on your computer, install and run the VNC client:
+
+    On a Linux machine install the package xtightvncviewer:
+
+sudo apt-get install xtightvncviewer
+
+</pre>
+
+<hr />
+<h1>/sbin/vboxconfig does not works<br />
+Makefile:946: *** "Cannot generate ORC metadata for CONFIG_UNWINDER_ORC=y, please install libelf-dev, libelf-devel or elfutils-libelf-devel".</h1>
+<pre>
+install elfutils devel pacakges
+in fedora 27
+dnf install elfutils-devel
+
+</pre>
+
+
+<hr />
+<h1>Apache mpm itk module</h1>
+<pre>
+<a href="http://mpm-itk.sesse.net/">http://mpm-itk.sesse.net/</a>
+First of all apache must be isntalled as prefork: --with-mpm=prefork
+
+#basic configuration
+./configure --with-apxs=/usr/local/apache2x/bin/apxs
+make
+su -c "make install"
+#add to httpd.conf
+LoadModule mpm_itk_module modules/mpm_itk.so
+</pre>
+
+<hr />
+<h1>Eclipse : Can't save the password</h1>
+<pre>
+<a href="https://www.eclipse.org/forums/index.php/t/235447/">https://www.eclipse.org/forums/index.php/t/235447/</a>
+
+Preferences > General > Security > Secure Storage
+delete node
+</pre>
+
+
+<hr />
+<h1>PHP.INI settings Disable exec, shell_exec, system, popen and Other Functions To Improve Security</h1>
+<pre>
+<a href="https://www.cyberciti.biz/faq/linux-unix-apache-lighttpd-phpini-disable-functions/">https://www.cyberciti.biz/faq/linux-unix-apache-lighttpd-phpini-disable-functions/</a>
+
+<strong>Find disable_functions and set new list as follows:</strong>
+# list of function to disable globally #
+
+#disable_functions:
+
+1.HARD
+disable_functions = system, exec, shell_exec, passthru, phpinfo, show_source, popen, proc_open, fopen_with_path, dbmopen, dbase_open, putenv, move_uploaded_file, chdir, mkdir, rmdir, chmod, rename, filepro, filepro_rowcount, filepro_retrieve, posix_mkfifo, curl_exec, curl_multi_exec, parse_ini_file
+
+2. EXCLUDE : move_uploaded_file, phpinfo, putenv, chdir, mkdir, rmdir, chmod, chdir # for phpMyAdmin, composer, etc
+
+disable_functions = system, exec, shell_exec, passthru, show_source, popen, proc_open, fopen_with_path, dbmopen, dbase_open, putenv, mkdir, rmdir, chmod, rename, filepro, filepro_rowcount, filepro_retrieve, posix_mkfifo, curl_exec, curl_multi_exec, parse_ini_file
+
+3. EASY
+disable_functions = exec,passthru,shell_exec,system,proc_open,popen,curl_exec,curl_multi_exec,parse_ini_file,show_source
+
+<strong>also recommended to disable allow_url_include and allow_url_fopen for security reasons:</strong>
+allow_url_fopen=Off
+allow_url_include=Off
+
+</pre>
+
+
+<hr />
+<h1>Hide or modify current working directory in terminal</h1>
+<pre>
+https://askubuntu.com/questions/16728/hide-current-working-directory-in-terminal
+
+
+to change visualisation of directory path it is depend on PS1 variable
+
+in ubuntu it shows absolut path which is offten not usefull, because the space for typing is left very small
+variable PS1 in ubuntu is set:
+
+${debian_chroot:+($debian_chroot)}\u@\h:\w\$
+
+
+in Fedora and redhat like system this variable is set to:
+
+[\u@\h \W]\$
+
+To change ubuntu version of PS1 variable to redhat version, add export for variable PS1 in .bashrc
+
+export PS1='[\u@\h \W]\$'
+</pre>
+<hr />
+<h1>MariaDB Can't init tc log<br> Plugin 'gssapi' init function returned error</h1>
+<pre>
+https://dba.stackexchange.com/questions/151183/mariadb-cant-init-tc-log
+
+2019-01-30  7:45:13 140103172811008 [ERROR] Plugin 'gssapi' init function returned error.
+2019-01-30  7:45:13 140103172811008 [Note] Recovering after a crash using tc.log
+2019-01-30  7:45:13 140103172811008 [ERROR] Recovery failed! You must enable all engines that were enabled at the moment of the crash
+2019-01-30  7:45:13 140103172811008 [ERROR] Crash recovery failed. Either correct the problem (if it's, for example, out of memory error) and restart, or delete tc log and star
+
+
+Solution:
+sudo rm -f /var/lib/mysql/tc.log
+
+</pre>
+
+
+
+
+<hr />
+<h1>Enable and Disable Journaling On EXT4 File Systems In Linux</h1>
+<pre>
+https://curiousviral.com/enable-and-disable-journaling/
+
+Step 1: Unmount the file system partition where you want to apply it. let’s say, I have an ext4 file system mounted on /var/data with /dev/sda1.
+
+umount /var/data
+Step 2: Now Disable journaling for the system. We can use the below command.
+
+tune4fs -O ^has_journal /dev/sda1
+or
+
+tune2fs -O ^has_journal /dev/sda1
+if Command not found, then install using yum install e2fsprogs e4fsprogs.
+
+Check Out: Install Tomcat 10 Server Using Source Code On Linux 8
+
+Step 3: Once the above task completed. We will perform a system check using e4fsck -f /dev/sda1
+
+Step 4: Restart the Linux machine using shutdown -r now
+
+we can use this command to create mkfs.ext4 -O ^has_journal /dev/sda1
+
+Check Out: Docker Connection Error Desc Transport X509 Certificate
+
+Step 5: it’s time to verify the journaling disabled using dmesg | grep EXT4
+
+Note: Expected output similar to EXT4-fs (dm-3): mounted filesystem without journal. log journal file
+
+df -h
+You’re done disable j
+</pre>
+
+<hr />
+<h1>Sign virtual box modules (vboxdrv, vboxnetflt, vboxnetadp, vboxpci) Linux</h1>
+<pre>
+https://stackoverflow.com/questions/61248315/sign-virtual-box-modules-vboxdrv-vboxnetflt-vboxnetadp-vboxpci-centos-8
+https://superuser.com/questions/1539756/virtualbox-6-fedora-30-efi-secure-boot-you-may-need-to-sign-the-kernel-modules/1539757
+https://gist.github.com/reillysiemens/ac6bea1e6c7684d62f544bd79b2182a4
+
+
+1- Install mokutil package
+
+sudo dnf update
+sudo dnf install mokutil
+
+
+2- Create RSA key under new folder.
+
+sudo -i
+mkdir /root/signed-modules
+cd /root/signed-modules
+openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36500 -subj "/CN=VirtualBox/"
+chmod 600 MOK.priv
+
+
+3- This command will ask you to add a password, you need this password after the next reboot.
+
+sudo mokutil --import MOK.der
+
+4- Reboot your system and a blue screen appear, select Enroll MOK --> Continue --> put the previous password and your system will start.
+
+5- Put the previous cmmands in a script to run it later (after system update)
+
+cd /root/signed-modules
+vi sign-virtual-box
+
+Add the following cmd to this script :
+
+#!/bin/bash
+
+for modfile in $(dirname $(modinfo -n vboxdrv))/*.ko; do
+echo "Signing $modfile"
+/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 \
+/root/signed-modules/MOK.priv \
+/root/signed-modules/MOK.der "$modfile"
+done
+
+5- Add exec permission and run the script
+
+chmod 700 sign-virtual-box
+./sign-virtual-box
+
+6- Launch VirtualBOx
+
+modprobe vboxdrv
+</pre>
+
+<hr />
+<h1>How to change the docker image installation directory?</h1>
+<pre>
+https://stackoverflow.com/a/34731550/4359487
+
+
+144
+
+Following advice from comments I utilize Docker systemd documentation to improve this answer. Below procedure doesn't require reboot and is much cleaner.
+
+First create directory and file for custom configuration:
+
+sudo mkdir -p /etc/systemd/system/docker.service.d
+sudo $EDITOR /etc/systemd/system/docker.service.d/docker-storage.conf
+
+For docker version before 17.06-ce paste:
+
+[Service]
+ExecStart=
+ExecStart=/usr/bin/docker daemon -H fd:// --graph="/mnt"
+
+For docker after 17.06-ce paste:
+
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd -H fd:// --data-root="/mnt"
+
+Alternative method through daemon.json
+
+I recently tried above procedure with 17.09-ce on Fedora 25 and it seem to not work. Instead of that simple modification in /etc/docker/daemon.json do the trick:
+
+{
+    "graph": "/mnt",
+    "storage-driver": "overlay"
+}
+
+Despite the method you have to reload configuration and restart Docker:
+
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+To confirm that Docker was reconfigured:
+
+docker info|grep "loop file"
+
+In recent version (17.03) different command is required:
+
+docker info|grep "Docker Root Dir"
+
+Output should look like this:
+
+ Data loop file: /mnt/devicemapper/devicemapper/data
+ Metadata loop file: /mnt/devicemapper/devicemapper/metadata
+
+Or:
+
+ Docker Root Dir: /mnt
+
+Then you can safely remove old Docker storage:
+
+rm -rf /var/lib/docker
+</pre>
+
+
+
+<hr />
+<h1>How To Remove Docker Images, Containers, and Volumes</h1>
+<pre>
+https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes
+
+<h3>Purging All Unused or Dangling Images, Containers, Volumes, and Networks</h3>
+Docker provides a single command that will clean up any resources — images, containers, volumes, and networks — that are dangling (not associated with a container):
+
+    docker system prune
+
+To additionally remove any stopped containers and all unused images (not just dangling images), add the -a flag to the command:
+
+    docker system prune -a
+
+
+<h3>Removing Docker Images</h3>
+Remove one or more specific images
+
+Use the docker images command with the -a flag to locate the ID of the images you want to remove. This will show you every image, including intermediate image layers. When you’ve located the images you want to delete, you can pass their ID or tag to docker rmi:
+
+List:
+
+    docker images -a
+
+Remove:
+
+    docker rmi Image Image
+
+
+</pre>
+
+
+<hr />
+<h1>Netbeans antialias fonts</h1>
+<pre>
+https://docs.oracle.com/javase/7/docs/technotes/guides/2d/flags.html
+
+"add this string in netbeans_default_options 
+-J-Dswing.aatext=true -J-Dawt.useSystemAAFontSettings=on 
+or
+-J-Dawt.useSystemAAFontSettings=on -J-Dsun.java2d.d3d=false
+or
+ -J-Dawt.useSystemAAFontSettings=on -J-Dsun.java2d.d3d=false -J-Dswing.aatext=true
+
+
+
+also can use parameters:
+""off""|""false""|""default"" : VALUE_TEXT_ANTIALIAS_DEFAULT
+""on""                    : VALUE_TEXT_ANTIALIAS_ON
+""gasp""                  : VALUE_TEXT_ANTIALIAS_GASP
+""lcd""|""lcd_hrgb""        : VALUE_TEXT_ANTIALIAS_LCD_HRGB
+""lcd_hbgr""              : VALUE_TEXT_ANTIALIAS_LCD_HBGR
+""lcd_vrgb""              : VALUE_TEXT_ANTIALIAS_LCD_VRGB
+""lcd_vbgr""              : VALUE_TEXT_ANTIALIAS_LCD_VBGR
+
+Also some java version does not gets that result as need
+for example jdk 11.0.5 version worsk fine, while 11.0.6 does not shows antialias so good"
+</pre>
+
+
+
+<hr />
+<h1>Mouse (acceleration) dpi</h1>
+<pre>
+https://askubuntu.com/a/934636/340779
+
+1.find  your mouse model with command
+        xinput --list --short
+2. find what properties has which contains accel word
+xinput --list-props ""your mouse model""
+3. set property to model
+# for this example command is ""libinput Accel Speed""
+
+xinput --set-prop ""your mouse model"" ""libinput Accel Speed"" number (where number is the float or integer of dpi from 0 to 1)
+
+Example :
+xinput --set-prop ""KYE SYSTEMS CORP. Wired Mouse"" ""libinput Accel Speed"" 0.1
+
+</pre>
+
+
+
+<hr />
+<h1>Filezilla with Private Key (SSH) Authentication</h1>
+<pre>
+https://bbs.archlinux.org/viewtopic.php?pid=1269788#p1269788
+
+create and run script file with
+#!/bin/sh
+
+# Start a D-Bus session
+source /etc/X11/xinit/xinitrc.d/00-start-message-bus.sh
+#on some system maybe instead 00-start-message-bus.sh is source /etc/X11/xinit/xinitrc.d/30-dbus
+# Start GNOME Keyring
+eval $(/usr/bin/gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh)
+# You probably need to do this too:
+export SSH_AUTH_SOCK
+export GPG_AGENT_INFO
+export GNOME_KEYRING_CONTROL
+export GNOME_KEYRING_PID
+
+## Ensure that the D-Bus Communication System is running properly to fix
+## File management, authentication, and other essential system processes
+
+if which dbus-launch >/dev/null && test -z "$DBUS_SESSION_BUS_ADDRESS"; then
+    eval "$(dbus-launch --sh-syntax --exit-with-session)"
+fi
+
+</pre>
+
+
+
+<hr />
+<h1>Disable subpixel fonts</h1>
+<pre>
+vi .Xdefaults 
+Xft.dpi:        96
+Xft.antialias:  true
+Xft.rgba:       none
+Xft.hinting:    true
+Xft.hintstyle:  hintslight
+
+xrdb -load .Xdefaults
+gsettings set org.gnome.settings-daemon.plugins.xsettings antialiasing none
+</pre>
+
+
+
+<hr />
+<h1>Fedora 35 internet forward</h1>
+<pre>
+firewall-cmd --permanent --zone=<zone name> --add-masquerade
+firewall-cmd --permanent --zone=<zone name> --add-forward
+</pre>
+
+
+<hr />
+<h1></h1>
+<pre>
+</pre>
+
+
+<hr />
+<h1>Delete mail from specific sender from postfix queue</h1>
+<a href="https://pgabri.com/blog/delete-mail-from-specific-sender-from-postfix-queue/?utm_source=pocket_mylist">Sourcee Link</a>
+<pre>
+postqueue -p | tail -n +2 | awk 'BEGIN { RS = "" } /username@example\.com/ { print $1 }' | tr -d '*!' | postsuper -d -
+</pre>
+
+
+<hr />
+<h1></h1>
+<pre>
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
